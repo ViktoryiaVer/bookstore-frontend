@@ -28,7 +28,7 @@ const Authors: FC<AuthorsProps> = () => {
   return (
     <>
       <Header text="Authors" />
-      <main className="container">
+      <main className="table-container">
         <Link
           to="/authors/new"
           className="btn btn-primary"

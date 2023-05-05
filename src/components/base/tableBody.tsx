@@ -31,6 +31,7 @@ const TableBody: FC<TableBodyProps> = ({ data, columns, onDelete }) => {
 };
 
 function renderCell(item: {}, column: any) {
+  console.log(item);
   if (column.content) return column.content(item);
 
   return _.get(item, column.path);

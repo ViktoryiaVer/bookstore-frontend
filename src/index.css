@@ -19,6 +19,15 @@ body {
   margin-left: 20px;
   width: 30%;
 }
+
+.table-container {
+  margin-left: 20px;
+}
+
+.book-author-list {
+  padding-left: 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
