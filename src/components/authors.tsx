@@ -1,19 +1,29 @@
 import { FC, useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import AuthorsTable from "./authorsTable";
 import { deleteAuthor, getAuthors } from "../services/authorService";
 import Header from "./base/header";
-import { Link } from "react-router-dom";
 import Author from "../types/author";
+import Pagination from "./base/pagination";
 
 interface AuthorsProps {}
 
 const Authors: FC<AuthorsProps> = () => {
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await getAuthors();
-      setAuthors(data);
+      setAuthors(data.authors);
+      setCurrentPage(data.currentPage);
+      setTotalItems(data.totalItems);
+      setTotalPages(data.totalPages);
     };
     fetchData();
   }, []);
@@ -23,6 +33,12 @@ const Authors: FC<AuthorsProps> = () => {
 
     const filteredAuthors = authors.filter((a) => a.id !== authorId);
     setAuthors(filteredAuthors);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    searchParams.set("page", page.toString());
+    setSearchParams(searchParams);
   };
 
   return (
@@ -37,6 +53,12 @@ const Authors: FC<AuthorsProps> = () => {
           New Author
         </Link>
         <AuthorsTable data={authors} onDelete={handleDelete} />
+        <Pagination
+          totalItems={totalItems}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

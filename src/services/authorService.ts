@@ -2,6 +2,7 @@ import Author from "../types/author";
 import http from "./httpService";
 
 import config from "../config.json";
+import AuthorResponse from "../types/authorResponse";
 
 const apiEndpoint = config.apiUrl + "authors/";
 
@@ -10,7 +11,7 @@ function authorUrl(id: number) {
 }
 
 export function getAuthors() {
-  return http.get<Array<Author>>(apiEndpoint);
+  return http.get<AuthorResponse>(apiEndpoint);
 }
 
 export function getAuthor(authorId: number) {

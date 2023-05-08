@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import Book from "../types/book";
 import Table from "./base/table";
 import Author from "../types/author";
@@ -10,10 +10,13 @@ interface BooksTableProps {
 }
 
 const BooksTable: FC<BooksTableProps> = ({ data, onDelete }) => {
-  const [columns, setColumns] = useState([
+  const columns = [
     {
       path: "title",
       label: "Title",
+      content: (item: any) => (
+        <Link to={`/books/${item.id}`}>{item.title}</Link>
+      ),
     },
     {
       path: "publisher",
@@ -43,13 +46,14 @@ const BooksTable: FC<BooksTableProps> = ({ data, onDelete }) => {
         <ul className="book-author-list">
           {item.authors.map((author: Author) => (
             <Link
+              key={author.id}
               to={`/authors/${author.id}`}
             >{`${author.firstName} ${author.lastName}`}</Link>
           ))}
         </ul>
       ),
     },
-  ]);
+  ];
 
   return <Table columns={columns} data={data} onDelete={onDelete} />;
 };

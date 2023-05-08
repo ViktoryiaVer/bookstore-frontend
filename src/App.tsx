@@ -9,6 +9,7 @@ import Payments from "./components/payments";
 import Users from "./components/users";
 import NotFound from "./components/notFound";
 import AuthorForm from "./components/authorForm";
+import BookForm from "./components/bookForm";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/books" element={<Books />}></Route>
+        <Route path="/books/:id" element={<BookForm />} />
         <Route path="/authors" element={<Authors />}></Route>
         <Route path="/authors/:id" element={<AuthorForm />} />
         <Route path="/orders" element={<Orders />}></Route>

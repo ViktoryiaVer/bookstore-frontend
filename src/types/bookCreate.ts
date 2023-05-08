@@ -1,7 +1,6 @@
-import Author from "./author";
 import { Cover } from "./enums/cover";
 
-type Book = {
+export type BookCreate = {
   id?: number;
   title: string;
   publisher: string;
@@ -9,8 +8,7 @@ type Book = {
   yearOfPublication: number;
   price: BigInt;
   cover: Cover;
-  authors: Author[];
-  // authorIds?: number[];
+  authorIds: number[];
 };
 
-export default Book;
+export default BookCreate;

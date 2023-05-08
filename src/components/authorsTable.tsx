@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import Table from "./base/table";
 import Author from "../types/author";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ interface AuthorsTableProps {
 }
 
 const AuthorsTable: FC<AuthorsTableProps> = ({ data, onDelete }) => {
-  const [columns, setColumns] = useState([
+  const columns = [
     {
       path: "firstName",
       label: "First Name",
@@ -28,7 +28,7 @@ const AuthorsTable: FC<AuthorsTableProps> = ({ data, onDelete }) => {
       path: "birthdate",
       label: "Birth date",
     },
-  ]);
+  ];
 
   return <Table columns={columns} data={data} onDelete={onDelete} />;
 };

@@ -3,6 +3,7 @@ import Header from "./base/header";
 import BooksTable from "./booksTable";
 import Book from "../types/book";
 import { deleteBook, getBooks } from "../services/bookService";
+import { Link } from "react-router-dom";
 
 interface BooksProps {}
 
@@ -12,7 +13,6 @@ const Books: FC<BooksProps> = () => {
   useEffect(() => {
     const fetchData = async () => {
       const { data } = await getBooks();
-      console.log(data);
       setBooks(data);
     };
     fetchData();
@@ -29,6 +29,13 @@ const Books: FC<BooksProps> = () => {
     <>
       <Header text="Books" />
       <main className="table-container">
+        <Link
+          to="/books/new"
+          className="btn btn-primary"
+          style={{ marginBottom: 20 }}
+        >
+          New Book
+        </Link>
         <BooksTable data={books} onDelete={handleDelete} />
       </main>
     </>
