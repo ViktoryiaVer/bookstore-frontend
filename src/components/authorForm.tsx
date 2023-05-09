@@ -1,35 +1,15 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Header from "./base/header";
-import Author from "../types/author";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAuthor, saveOrUpdateAuthor } from "../services/authorService";
+import { useNavigate } from "react-router-dom";
+import { saveOrUpdateAuthor } from "../services/authorService";
 import Input from "./base/input";
+import useAuthorForm from "../hooks/useAuthorForm";
 
 interface AuthorFormProps {}
 
 const AuthorForm: FC<AuthorFormProps> = () => {
-  const [author, setAuthor] = useState<Author>({
-    firstName: "",
-    lastName: "",
-    birthdate: new Date(),
-  });
-
-  const { id } = useParams();
-
+  const { author, setAuthor, id } = useAuthorForm();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id === "new") {
-        return;
-      }
-
-      const { data } = await getAuthor(Number(id));
-      setAuthor(data);
-    };
-
-    fetchData();
-  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...author };

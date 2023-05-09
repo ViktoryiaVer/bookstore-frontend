@@ -1,58 +1,26 @@
-import { FC, useEffect, useState } from "react";
-import Book from "../types/book";
-import { useNavigate, useParams } from "react-router-dom";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "./base/header";
 import Input from "./base/input";
-import { getBook, saveOrUpdateBook } from "../services/bookService";
+import { saveOrUpdateBook } from "../services/bookService";
 import Select from "./base/select";
-import { Cover } from "../types/enums/cover";
-import { getAuthors } from "../services/authorService";
-import Author from "../types/author";
 import BookCreate from "../types/bookCreate";
+import useBookForm from "../hooks/useBookForm";
 
 interface BookFormProps {}
 
 const BookForm: FC<BookFormProps> = () => {
-  const [book, setBook] = useState<Book>({
-    title: "",
-    publisher: "",
-    isbn: "",
-    yearOfPublication: 0,
-    price: BigInt(0),
-    cover: Cover.HARD,
-    authors: [],
-  });
-
-  const [authors, setAuthors] = useState<Author[]>([]);
-  const [selectedAuthor, setSelectedAuthor] = useState("");
-
-  const covers = Object.values(Cover).filter(
-    (value) => typeof value === "string"
-  ) as string[];
-
-  const { id } = useParams();
+  const {
+    book,
+    setBook,
+    id,
+    authors,
+    covers,
+    selectedAuthor,
+    setSelectedAuthor,
+  } = useBookForm();
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (id === "new") {
-        return;
-      }
-
-      const { data } = await getBook(Number(id));
-      setBook(data);
-      setSelectedAuthor(data?.authors[0].lastName || "");
-    };
-
-    fetchData();
-    fetchAuthors();
-  }, []);
-
-  const fetchAuthors = async () => {
-    const { data } = await getAuthors();
-    return setAuthors(data.authors);
-  };
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -71,7 +39,6 @@ const BookForm: FC<BookFormProps> = () => {
     event.preventDefault();
 
     const data: any = getBookForSavingOrUpdating();
-
     await saveOrUpdateBook(data);
 
     navigate("/books/");
@@ -88,6 +55,18 @@ const BookForm: FC<BookFormProps> = () => {
 
   const getHeaderText = (): string => {
     return book.id == null ? `New Book` : `Book ${id}`;
+  };
+
+  const getOptions = (): any[] => {
+    if (book.authors.length === 0) return authors;
+
+    const authorLastNames = authors.map((author) => author.lastName);
+    book.authors.forEach((author) => {
+      if (authorLastNames.indexOf(author.lastName) === -1) {
+        authors.push(author);
+      }
+    });
+    return authors;
   };
 
   return (
@@ -146,7 +125,7 @@ const BookForm: FC<BookFormProps> = () => {
             valuePath="lastName"
             value={selectedAuthor}
             onChange={handleAuthorChange}
-            options={authors}
+            options={getOptions()}
           />
           <button type="submit" className="btn btn-primary m-2">
             Save

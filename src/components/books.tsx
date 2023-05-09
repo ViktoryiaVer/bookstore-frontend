@@ -1,22 +1,15 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Header from "./base/header";
 import BooksTable from "./booksTable";
-import Book from "../types/book";
-import { deleteBook, getBooks } from "../services/bookService";
+import { deleteBook } from "../services/bookService";
 import { Link } from "react-router-dom";
+import Pagination from "./base/pagination";
+import useBooks from "../hooks/useBooks";
 
 interface BooksProps {}
 
 const Books: FC<BooksProps> = () => {
-  const [books, setBooks] = useState<Book[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getBooks();
-      setBooks(data);
-    };
-    fetchData();
-  }, []);
+  const { books, setBooks, totalPages } = useBooks();
 
   const handleDelete = async (bookId: number) => {
     await deleteBook(bookId);
@@ -37,6 +30,7 @@ const Books: FC<BooksProps> = () => {
           New Book
         </Link>
         <BooksTable data={books} onDelete={handleDelete} />
+        <Pagination totalPages={totalPages} />
       </main>
     </>
   );

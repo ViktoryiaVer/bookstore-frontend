@@ -2,6 +2,8 @@ import http from "./httpService";
 import config from "../config.json";
 import Book from "../types/book";
 import BookCreate from "../types/bookCreate";
+import BookPageable from "../types/bookPageable";
+import { getSearchParamsForPagination } from "../utils/pagingUtil";
 
 const apiEndpoint = config.apiUrl + "books/";
 
@@ -10,7 +12,14 @@ function bookUrl(id: number) {
 }
 
 export function getBooks() {
-  return http.get<Array<Book>>(apiEndpoint);
+  return http.get<BookPageable>(apiEndpoint);
+}
+
+export function getBooksWithParams(searchParams: URLSearchParams) {
+  const params: {} = getSearchParamsForPagination(searchParams);
+  return http.get<BookPageable>(apiEndpoint, {
+    params: { ...params },
+  });
 }
 
 export function getBook(bookId: number) {
