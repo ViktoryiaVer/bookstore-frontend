@@ -10,8 +10,11 @@ import Users from "./components/users";
 import NotFound from "./components/notFound";
 import AuthorForm from "./components/authorForm";
 import BookForm from "./components/bookForm";
+import LoginForm from "./components/loginForm";
+import { getCurrentUser } from "./services/authenticationService";
 
 function App() {
+  console.log(getCurrentUser());
   return (
     <>
       <NavBar />
@@ -24,6 +27,7 @@ function App() {
         <Route path="/orders" element={<Orders />}></Route>
         <Route path="/payments" element={<Payments />}></Route>
         <Route path="/users" element={<Users />}></Route>
+        <Route path="/login" element={<LoginForm />}></Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

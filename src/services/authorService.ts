@@ -1,6 +1,5 @@
 import Author from "../types/author";
 import http from "./httpService";
-
 import config from "../config.json";
 import AuthorPageable from "../types/authorPageable";
 import { getSearchParamsForPagination } from "../utils/pagingUtil";
