@@ -3,13 +3,11 @@ import Header from "./base/header";
 import Input from "./base/input";
 import Login from "../types/login";
 import { doLogin } from "../services/authenticationService";
-import { useNavigate } from "react-router-dom";
 
 interface LoginFormProps {}
 
 const LoginForm: FC<LoginFormProps> = () => {
   const [login, setLogin] = useState<Login>({ username: "", password: "" });
-  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...login };
@@ -21,8 +19,8 @@ const LoginForm: FC<LoginFormProps> = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    doLogin(login);
-    navigate("/");
+    await doLogin(login);
+    window.location.href = "/";
   };
 
   return (

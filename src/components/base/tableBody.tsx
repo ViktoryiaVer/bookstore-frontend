@@ -1,6 +1,7 @@
 import { FC } from "react";
 import _ from "lodash";
 import Column from "../../types/column";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 interface TableBodyProps {
   data: any[];
@@ -9,6 +10,8 @@ interface TableBodyProps {
 }
 
 const TableBody: FC<TableBodyProps> = ({ data, columns, onDelete }) => {
+  const { isAdmin } = useCurrentUser();
+
   return (
     <tbody>
       {data.map((item) => (
@@ -16,14 +19,16 @@ const TableBody: FC<TableBodyProps> = ({ data, columns, onDelete }) => {
           {columns.map((column) => (
             <td key={item.id + column.path}>{renderCell(item, column)}</td>
           ))}
-          <td>
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={() => onDelete(item.id)}
-            >
-              Delete
-            </button>
-          </td>
+          {isAdmin && (
+            <td>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() => onDelete(item.id)}
+              >
+                Delete
+              </button>
+            </td>
+          )}
         </tr>
       ))}
     </tbody>

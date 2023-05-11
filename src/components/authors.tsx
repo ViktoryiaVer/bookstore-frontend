@@ -5,10 +5,12 @@ import Header from "./base/header";
 import Pagination from "./base/pagination";
 import useAuthors from "../hooks/useAuthors";
 import { deleteAuthor } from "../services/authorService";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 interface AuthorsProps {}
 
 const Authors: FC<AuthorsProps> = () => {
+  const { isAdmin } = useCurrentUser();
   const { authors, totalPages, setAuthors } = useAuthors();
 
   const handleDelete = async (authorId: number) => {
@@ -22,13 +24,15 @@ const Authors: FC<AuthorsProps> = () => {
     <>
       <Header text="Authors" />
       <main className="table-container">
-        <Link
-          to="/authors/new"
-          className="btn btn-primary"
-          style={{ marginBottom: 20 }}
-        >
-          New Author
-        </Link>
+        {isAdmin && (
+          <Link
+            to="/authors/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
+            New Author
+          </Link>
+        )}
         <AuthorsTable data={authors} onDelete={handleDelete} />
         <Pagination totalPages={totalPages} />
       </main>

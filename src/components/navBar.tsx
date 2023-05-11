@@ -1,9 +1,11 @@
 import { FC } from "react";
 import { Link, NavLink } from "react-router-dom";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 interface NavBarProps {}
 
 const NavBar: FC<NavBarProps> = () => {
+  const { username, isLoggedIn, isAdmin } = useCurrentUser();
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -33,25 +35,44 @@ const NavBar: FC<NavBarProps> = () => {
                 Authors
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/orders">
-                Orders
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/payments">
-                Payments
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/users">
-                Users
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Login
-              </NavLink>
+            {isAdmin && (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/orders">
+                    Orders
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/payments">
+                    Payments
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/users">
+                    Users
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {isLoggedIn || (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
+              </li>
+            )}
+            {isLoggedIn && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/logout">
+                  Logout
+                </NavLink>
+              </li>
+            )}
+            <li className="nav-item name-li">
+              <Link className="nav-link" to="/">
+                {username || "Guest"}
+              </Link>
             </li>
           </ul>
         </div>

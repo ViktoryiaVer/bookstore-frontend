@@ -4,6 +4,7 @@ import Login from "../types/login";
 import Token from "../types/token";
 import Cookie from "js-cookie";
 import jwtDecode from "jwt-decode";
+import UserInfo from "../types/userInfo";
 
 const apiEndpoint = config.apiUrl + "auth/login";
 const tokenKey = "token";
@@ -26,13 +27,21 @@ function setCookie(data: Token) {
   }
 
   Cookie.set(tokenKey, data.token);
-  console.log(Cookie.get(tokenKey));
 }
 
-export function getCurrentUser() {
+export function doLogout() {
+  Cookie.remove(tokenKey);
+}
+
+export function getCurrentUser(): UserInfo | undefined {
   const jwt = Cookie.get(tokenKey);
   if (jwt) {
-    return jwtDecode(jwt);
+    const { sub: username, role } = jwtDecode(jwt) as {
+      sub: string;
+      role: string;
+    };
+    console.log(username);
+    return { username, role };
   }
 }
 

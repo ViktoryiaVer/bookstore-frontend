@@ -28,6 +28,11 @@ body {
   padding-left: 0;
 }
 
+.name-li {
+  font-style: italic;
+  font-weight: bold;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
