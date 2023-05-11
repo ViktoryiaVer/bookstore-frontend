@@ -6,7 +6,6 @@ import App from "./App";
 import "./index.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import "bootstrap/dist/css/bootstrap.css";
-import { UserProvider } from "./context/userContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,9 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider>
-        <App />
-      </UserProvider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
