@@ -1,10 +1,10 @@
 import config from "../config.json";
 import http from "./httpService";
 import Login from "../types/login";
-import Token from "../types/token";
+import Token from "../types/responseWithToken";
 import Cookie from "js-cookie";
 import jwtDecode from "jwt-decode";
-import UserInfo from "../types/userInfo";
+import UserInfo from "../types/userInfoForContext";
 
 const apiEndpoint = config.apiUrl + "auth/login";
 const tokenKey = "token";
