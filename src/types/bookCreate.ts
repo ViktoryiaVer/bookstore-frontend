@@ -9,7 +9,7 @@ type Book = {
   yearOfPublication: number;
   price: BigInt;
   cover: Cover;
-  authors: Author[];
+  authorIds: number[];
 };
 
 export default Book;
