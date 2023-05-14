@@ -5,15 +5,21 @@ import Token from "../types/responseWithToken";
 import Cookie from "js-cookie";
 import jwtDecode from "jwt-decode";
 import UserInfo from "../types/userInfoForContext";
+import UserAccount from "../types/userAccount";
 
-const apiEndpoint = config.apiUrl + "auth/login";
+const apiLoginEndpoint = config.apiUrl + "auth/login";
+const apiSignupEndpoint = config.apiUrl + "auth/signup";
 const tokenKey = "token";
 
 http.setJwt(getJwt());
 
+export function registerUser(user: UserAccount) {
+  return http.post(apiSignupEndpoint, user);
+}
+
 export async function doLogin(doLogin: Login) {
   const { data } = await http.post<Token>(
-    apiEndpoint,
+    apiLoginEndpoint,
     {},
     { auth: { ...doLogin } }
   );

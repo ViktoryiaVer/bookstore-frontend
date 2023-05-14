@@ -15,6 +15,7 @@ import { UserProvider } from "./context/userContext";
 import Logout from "./components/logout";
 import AdminProtectedRoute from "./components/adminProtectedRoute";
 import LoginProtectedRoute from "./components/loginProtectedRoute";
+import RegisterForm from "./components/registerForm";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/users" element={<Users />}></Route>
           </Route>
           <Route path="/login" element={<LoginForm />}></Route>
+          <Route path="/signup" element={<RegisterForm />} />
           <Route element={<LoginProtectedRoute />}>
             <Route path="/books" element={<Books />}></Route>
             <Route path="/authors" element={<Authors />}></Route>
