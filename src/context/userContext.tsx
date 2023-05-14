@@ -1,6 +1,6 @@
 import { FC, ReactNode, createContext, useEffect } from "react";
 import { getCurrentUser } from "../services/authenticationService";
-import UserInfo from "../types/userInfo";
+import UserInfo from "../types/userInfoForContext";
 
 interface UserContextProps {
   children: ReactNode;
