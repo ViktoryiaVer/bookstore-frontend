@@ -5,10 +5,10 @@ import BookCreate from "../types/bookCreate";
 import BookPageable from "../types/bookPageable";
 import { getSearchParamsForPagination } from "../utils/pagingUtil";
 
-const apiEndpoint = config.apiUrl + "books/";
+const apiEndpoint = config.apiUrl + "books";
 
 function bookUrl(id: number) {
-  return `${apiEndpoint}${id}`;
+  return `${apiEndpoint}/${id}`;
 }
 
 export function getBooks() {

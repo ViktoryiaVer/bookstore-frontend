@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import Header from "./base/header";
-import Input from "./base/input";
+import Header from "./base/Header";
+import Input from "./base/Input";
 import Login from "../types/login";
 import { doLogin } from "../services/authenticationService";
 import { useLocation } from "react-router-dom";

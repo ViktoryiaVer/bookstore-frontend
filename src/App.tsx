@@ -1,21 +1,21 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import NavBar from "./components/navBar";
-import Home from "./components/home";
-import Books from "./components/books";
-import Authors from "./components/authors";
-import Orders from "./components/orders";
-import Payments from "./components/payments";
-import Users from "./components/users";
-import NotFound from "./components/notFound";
-import AuthorForm from "./components/authorForm";
-import BookForm from "./components/bookForm";
-import LoginForm from "./components/loginForm";
+import NavBar from "./components/NavBar";
+import Home from "./components/Home";
+import Books from "./components/Books";
+import Authors from "./components/Authors";
+import Orders from "./components/Orders";
+import Payments from "./components/Payments";
+import Users from "./components/Users";
+import NotFound from "./components/NotFound";
+import AuthorForm from "./components/AuthorForm";
+import BookForm from "./components/BookForm";
+import LoginForm from "./components/LoginForm";
 import { UserProvider } from "./context/userContext";
-import Logout from "./components/logout";
-import AdminProtectedRoute from "./components/adminProtectedRoute";
-import LoginProtectedRoute from "./components/loginProtectedRoute";
-import RegisterForm from "./components/registerForm";
+import Logout from "./components/Logout";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import LoginProtectedRoute from "./components/LoginProtectedRoute";
+import RegisterForm from "./components/RegisterForm";
 
 function App() {
   return (
