@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./base/header";
-import Input from "./base/input";
+import Header from "./base/Header";
+import Input from "./base/Input";
 import { saveOrUpdateBook } from "../services/bookService";
-import Select from "./base/select";
+import Select from "./base/Select";
 import BookCreate from "../types/bookCreate";
 import useBookForm from "../hooks/useBookForm";
 

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Header from "./base/header";
+import Header from "./base/Header";
 
 interface UsersProps {}
 

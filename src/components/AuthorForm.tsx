@@ -1,8 +1,8 @@
 import { FC } from "react";
-import Header from "./base/header";
+import Header from "./base/Header";
 import { useNavigate } from "react-router-dom";
 import { saveOrUpdateAuthor } from "../services/authorService";
-import Input from "./base/input";
+import Input from "./base/Input";
 import useAuthorForm from "../hooks/useAuthorForm";
 
 interface AuthorFormProps {}

@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import AuthorsTable from "./authorsTable";
-import Header from "./base/header";
-import Pagination from "./base/pagination";
+import AuthorsTable from "./AuthorsTable";
+import Header from "./base/Header";
+import Pagination from "./base/Pagination";
 import useAuthors from "../hooks/useAuthors";
 import { deleteAuthor } from "../services/authorService";
 import useCurrentUser from "../hooks/useCurrentUser";

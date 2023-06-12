@@ -1,9 +1,9 @@
 import { FC } from "react";
-import Header from "./base/header";
-import BooksTable from "./booksTable";
+import Header from "./base/Header";
+import BooksTable from "./BooksTable";
 import { deleteBook } from "../services/bookService";
 import { Link } from "react-router-dom";
-import Pagination from "./base/pagination";
+import Pagination from "./base/Pagination";
 import useBooks from "../hooks/useBooks";
 import useCurrentUser from "../hooks/useCurrentUser";
 

@@ -4,10 +4,10 @@ import config from "../config.json";
 import AuthorPageable from "../types/authorPageable";
 import { getSearchParamsForPagination } from "../utils/pagingUtil";
 
-const apiEndpoint = config.apiUrl + "authors/";
+const apiEndpoint = config.apiUrl + "authors";
 
 function authorUrl(id: number) {
-  return `${apiEndpoint}${id}`;
+  return `${apiEndpoint}/${id}`;
 }
 
 export function getAuthors() {

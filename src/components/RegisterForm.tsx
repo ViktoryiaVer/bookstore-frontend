@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import Header from "./base/header";
-import Input from "./base/input";
+import Header from "./base/Header";
+import Input from "./base/Input";
 import UserAccount from "../types/userAccount";
 import { Role } from "../types/enums/role";
 import { registerUser } from "../services/authenticationService";
