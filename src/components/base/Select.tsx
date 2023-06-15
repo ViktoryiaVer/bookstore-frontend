@@ -48,7 +48,7 @@ const getKey = (item: any, index: number): number => {
   return index;
 };
 
-const getValue = (item: any, valuePath: string | undefined) => {
+const getValue = (item: any, valuePath?: string) => {
   if (valuePath) return _.get(item, valuePath);
   return item;
 };
