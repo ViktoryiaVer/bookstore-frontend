@@ -16,9 +16,7 @@ const useBookForm = () => {
     cover: Cover.HARD,
     authors: [],
   });
-  const [authors, setAuthors] = useState<Author[]>([]);
-
-  const [selectedAuthor, setSelectedAuthor] = useState("");
+  const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
 
   const covers = Object.values(Cover).filter(
     (value) => typeof value === "string"
@@ -34,26 +32,19 @@ const useBookForm = () => {
 
       const { data } = await getBook(Number(id));
       setBook(data);
-      setSelectedAuthor(data?.authors[0].lastName || "");
+      setSelectedAuthors(data?.authors);
     };
 
     fetchData();
-    fetchAuthors();
   }, []);
-
-  const fetchAuthors = async () => {
-    const { data } = await getAuthors();
-    return setAuthors(data.authors);
-  };
 
   return {
     book,
     setBook,
     id,
-    authors,
     covers,
-    selectedAuthor,
-    setSelectedAuthor,
+    selectedAuthors,
+    setSelectedAuthors,
   };
 };
 

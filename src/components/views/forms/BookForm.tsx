@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { FC, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../base/Header";
 import Input from "../../base/Input";
 import { saveOrUpdateBook } from "../../../services/bookService";
@@ -10,21 +10,18 @@ import Author from "../../../types/author";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
+import AsyncSelect from "react-select/async";
+import { getAuthorsWithParams } from "../../../services/authorService";
+import { MultiValue } from "react-select";
 
 interface BookFormProps {}
 
 const BookForm: FC<BookFormProps> = () => {
-  const {
-    book,
-    setBook,
-    id,
-    authors,
-    covers,
-    selectedAuthor,
-    setSelectedAuthor,
-  } = useBookForm();
+  const { book, setBook, id, covers, selectedAuthors, setSelectedAuthors } =
+    useBookForm();
 
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -35,8 +32,8 @@ const BookForm: FC<BookFormProps> = () => {
     setBook(data);
   };
 
-  const handleAuthorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAuthor(event.currentTarget.value);
+  const handleAuthorChange = (newValue: MultiValue<Author>) => {
+    setSelectedAuthors([...newValue]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,9 +48,7 @@ const BookForm: FC<BookFormProps> = () => {
   const getBookForSavingOrUpdating = (): BookCreate => {
     const data: any = { ...book };
     delete data.authors;
-    data.authorIds = authors
-      .filter((a) => a.lastName === selectedAuthor)
-      .map((a: any) => a.id);
+    data.authorIds = selectedAuthors.map((a: Author) => a.id);
     return data as BookCreate;
   };
 
@@ -61,16 +56,11 @@ const BookForm: FC<BookFormProps> = () => {
     return book.id == null ? `New Book` : `Book ${id}`;
   };
 
-  const getAuthorsToSelect = (): Author[] => {
-    if (book.authors.length === 0) return authors;
-
-    const authorLastNames = authors.map((author) => author.lastName);
-    book.authors.forEach((author) => {
-      if (authorLastNames.indexOf(author.lastName) === -1) {
-        authors.push(author);
-      }
-    });
-    return authors;
+  const loadOptions = async (inputValue: string) => {
+    searchParams.set("lastName", inputValue);
+    setSearchParams(searchParams);
+    const { data } = await getAuthorsWithParams(searchParams);
+    return data.authors;
   };
 
   return (
@@ -121,14 +111,17 @@ const BookForm: FC<BookFormProps> = () => {
             onChange={handleChange}
             options={covers}
           />
-          <Select
-            isMulti={false}
-            name="authors"
-            label="Author(s)"
-            valuePath="lastName"
-            value={selectedAuthor}
+          <label htmlFor="async-select">Author(s)</label>
+          <AsyncSelect
+            id="async-select"
+            className="ms-0 m-2"
+            isMulti
+            value={selectedAuthors}
+            getOptionLabel={(option) => option.lastName}
+            getOptionValue={(option) => option.lastName}
+            placeholder="Type author lastname to search"
             onChange={handleAuthorChange}
-            options={getAuthorsToSelect()}
+            loadOptions={loadOptions}
           />
           <SubmitButton className="btn btn-primary m-2" text="Save" />
         </Form>

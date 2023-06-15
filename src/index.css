@@ -28,6 +28,10 @@ body {
   padding-left: 0;
 }
 
+.book-author-list li {
+  list-style: none;
+}
+
 .name-li {
   font-style: italic;
   font-weight: bold;
