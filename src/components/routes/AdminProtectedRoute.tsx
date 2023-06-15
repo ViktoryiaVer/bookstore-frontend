@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import useCurrentUser from "../hooks/useCurrentUser";
+import useCurrentUser from "../../hooks/useCurrentUser";
 
 interface AdminProtectedRouteProps {
   redirectPath?: string;

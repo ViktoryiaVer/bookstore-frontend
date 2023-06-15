@@ -1,9 +1,12 @@
 import { FC } from "react";
-import Header from "./base/Header";
+import Header from "../../base/Header";
 import { useNavigate } from "react-router-dom";
-import { saveOrUpdateAuthor } from "../services/authorService";
-import Input from "./base/Input";
-import useAuthorForm from "../hooks/useAuthorForm";
+import { saveOrUpdateAuthor } from "../../../services/authorService";
+import Input from "../../base/Input";
+import useAuthorForm from "../../../hooks/useAuthorForm";
+import SubmitButton from "../../base/SubmitButton";
+import MainContainer from "../../base/MainContainer";
+import Form from "../../base/Form";
 
 interface AuthorFormProps {}
 
@@ -32,8 +35,8 @@ const AuthorForm: FC<AuthorFormProps> = () => {
   return (
     <>
       <Header text={getHeaderText()} />
-      <main className="form-container">
-        <form onSubmit={handleSubmit} className="form">
+      <MainContainer className="form-container">
+        <Form onSubmit={handleSubmit}>
           <Input
             name="firstName"
             label="First name"
@@ -56,11 +59,9 @@ const AuthorForm: FC<AuthorFormProps> = () => {
             onChange={handleChange}
             type="date"
           />
-          <button type="submit" className="btn btn-primary m-2">
-            Save
-          </button>
-        </form>
-      </main>
+          <SubmitButton className="btn btn-primary m-2" text="Save" />
+        </Form>
+      </MainContainer>
     </>
   );
 };

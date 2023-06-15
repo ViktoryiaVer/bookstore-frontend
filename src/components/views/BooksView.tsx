@@ -1,11 +1,12 @@
 import { FC } from "react";
-import Header from "./base/Header";
-import BooksTable from "./BooksTable";
-import { deleteBook } from "../services/bookService";
+import Header from "../base/Header";
+import BooksTable from "../tables/BooksTable";
+import { deleteBook } from "../../services/bookService";
 import { Link } from "react-router-dom";
-import Pagination from "./base/Pagination";
-import useBooks from "../hooks/useBooks";
-import useCurrentUser from "../hooks/useCurrentUser";
+import Pagination from "../base/Pagination";
+import useBooks from "../../hooks/useBooks";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import MainContainer from "../base/MainContainer";
 
 interface BooksProps {}
 
@@ -23,7 +24,7 @@ const Books: FC<BooksProps> = () => {
   return (
     <>
       <Header text="Books" />
-      <main className="table-container">
+      <MainContainer className="table-container">
         {isAdmin && (
           <Link
             to="/books/new"
@@ -35,7 +36,7 @@ const Books: FC<BooksProps> = () => {
         )}
         <BooksTable data={books} onDelete={handleDelete} />
         <Pagination totalPages={totalPages} />
-      </main>
+      </MainContainer>
     </>
   );
 };

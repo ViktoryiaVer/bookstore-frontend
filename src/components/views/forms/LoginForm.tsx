@@ -1,9 +1,12 @@
 import { FC, useState } from "react";
-import Header from "./base/Header";
-import Input from "./base/Input";
-import Login from "../types/login";
-import { doLogin } from "../services/authenticationService";
+import Header from "../../base/Header";
+import Input from "../../base/Input";
+import Login from "../../../types/login";
+import { doLogin } from "../../../services/authenticationService";
 import { useLocation } from "react-router-dom";
+import SubmitButton from "../../base/SubmitButton";
+import MainContainer from "../../base/MainContainer";
+import Form from "../../base/Form";
 
 interface LoginFormProps {}
 
@@ -28,8 +31,8 @@ const LoginForm: FC<LoginFormProps> = () => {
   return (
     <>
       <Header text={"Login"} />
-      <main className="form-container">
-        <form onSubmit={handleSubmit} className="form">
+      <MainContainer className="form-container">
+        <Form onSubmit={handleSubmit}>
           <Input
             name="username"
             label="Username"
@@ -37,7 +40,6 @@ const LoginForm: FC<LoginFormProps> = () => {
             onChange={handleChange}
             type="text"
           />
-
           <Input
             name="password"
             label="Password"
@@ -45,11 +47,9 @@ const LoginForm: FC<LoginFormProps> = () => {
             onChange={handleChange}
             type="password"
           />
-          <button type="submit" className="btn btn-primary m-2">
-            Login
-          </button>
-        </form>
-      </main>
+          <SubmitButton className="btn btn-primary m-2" text="Login" />
+        </Form>
+      </MainContainer>
     </>
   );
 };

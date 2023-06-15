@@ -1,7 +1,7 @@
 import { FC } from "react";
-import Book from "../types/book";
-import Table from "./base/Table";
-import Author from "../types/author";
+import Book from "../../types/book";
+import Table from "../base/Table";
+import Author from "../../types/author";
 import { Link } from "react-router-dom";
 
 interface BooksTableProps {

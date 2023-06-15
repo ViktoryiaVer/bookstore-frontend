@@ -1,11 +1,15 @@
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "./base/Header";
-import Input from "./base/Input";
-import { saveOrUpdateBook } from "../services/bookService";
-import Select from "./base/Select";
-import BookCreate from "../types/bookCreate";
-import useBookForm from "../hooks/useBookForm";
+import Header from "../../base/Header";
+import Input from "../../base/Input";
+import { saveOrUpdateBook } from "../../../services/bookService";
+import Select from "../../base/Select";
+import BookCreate from "../../../types/bookCreate";
+import useBookForm from "../../../hooks/useBookForm";
+import Author from "../../../types/author";
+import SubmitButton from "../../base/SubmitButton";
+import MainContainer from "../../base/MainContainer";
+import Form from "../../base/Form";
 
 interface BookFormProps {}
 
@@ -57,7 +61,7 @@ const BookForm: FC<BookFormProps> = () => {
     return book.id == null ? `New Book` : `Book ${id}`;
   };
 
-  const getOptions = (): any[] => {
+  const getAuthorsToSelect = (): Author[] => {
     if (book.authors.length === 0) return authors;
 
     const authorLastNames = authors.map((author) => author.lastName);
@@ -72,8 +76,8 @@ const BookForm: FC<BookFormProps> = () => {
   return (
     <>
       <Header text={getHeaderText()} />
-      <main className="form-container">
-        <form onSubmit={handleSubmit} className="form">
+      <MainContainer className="form-container">
+        <Form onSubmit={handleSubmit}>
           <Input
             name="title"
             label="Title"
@@ -81,7 +85,6 @@ const BookForm: FC<BookFormProps> = () => {
             onChange={handleChange}
             type="text"
           />
-
           <Input
             name="publisher"
             label="Publisher"
@@ -125,13 +128,11 @@ const BookForm: FC<BookFormProps> = () => {
             valuePath="lastName"
             value={selectedAuthor}
             onChange={handleAuthorChange}
-            options={getOptions()}
+            options={getAuthorsToSelect()}
           />
-          <button type="submit" className="btn btn-primary m-2">
-            Save
-          </button>
-        </form>
-      </main>
+          <SubmitButton className="btn btn-primary m-2" text="Save" />
+        </Form>
+      </MainContainer>
     </>
   );
 };

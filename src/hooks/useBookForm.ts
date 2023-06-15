@@ -35,7 +35,6 @@ const useBookForm = () => {
       const { data } = await getBook(Number(id));
       setBook(data);
       setSelectedAuthor(data?.authors[0].lastName || "");
-      console.log(selectedAuthor);
     };
 
     fetchData();

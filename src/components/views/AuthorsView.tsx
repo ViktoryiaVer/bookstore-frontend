@@ -1,11 +1,12 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import AuthorsTable from "./AuthorsTable";
-import Header from "./base/Header";
-import Pagination from "./base/Pagination";
-import useAuthors from "../hooks/useAuthors";
-import { deleteAuthor } from "../services/authorService";
-import useCurrentUser from "../hooks/useCurrentUser";
+import AuthorsTable from "../tables/AuthorsTable";
+import Header from "../base/Header";
+import Pagination from "../base/Pagination";
+import useAuthors from "../../hooks/useAuthors";
+import { deleteAuthor } from "../../services/authorService";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import MainContainer from "../base/MainContainer";
 
 interface AuthorsProps {}
 
@@ -23,7 +24,7 @@ const Authors: FC<AuthorsProps> = () => {
   return (
     <>
       <Header text="Authors" />
-      <main className="table-container">
+      <MainContainer className="table-container">
         {isAdmin && (
           <Link
             to="/authors/new"
@@ -35,7 +36,7 @@ const Authors: FC<AuthorsProps> = () => {
         )}
         <AuthorsTable data={authors} onDelete={handleDelete} />
         <Pagination totalPages={totalPages} />
-      </main>
+      </MainContainer>
     </>
   );
 };
