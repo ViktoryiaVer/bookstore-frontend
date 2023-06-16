@@ -11,10 +11,14 @@ interface TableProps {
 
 const Table: FC<TableProps> = ({ data, columns, onDelete }) => {
   return (
-    <table className="table">
-      <TableHeader columns={columns} />
-      <TableBody data={data} columns={columns} onDelete={onDelete} />
-    </table>
+    <>
+      {data.length > 0 && (
+        <table className="table">
+          <TableHeader columns={columns} />
+          <TableBody data={data} columns={columns} onDelete={onDelete} />
+        </table>
+      )}
+    </>
   );
 };
 

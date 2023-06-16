@@ -45,9 +45,8 @@ const BooksTable: FC<BooksTableProps> = ({ data, onDelete }) => {
       content: (item: Book) => (
         <ul className="book-author-list">
           {item.authors.map((author: Author) => (
-            <li>
+            <li key={author.id}>
               <Link
-                key={author.id}
                 to={`/authors/${author.id}`}
               >{`${author.firstName} ${author.lastName} `}</Link>
             </li>

@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useEffect } from "react";
+import { FC, ReactNode, createContext } from "react";
 import { getCurrentUser } from "../services/authenticationService";
 import UserInfo from "../types/userInfoForContext";
 

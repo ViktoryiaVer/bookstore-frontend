@@ -8,6 +8,7 @@ import _ from "lodash";
 import SubmitButton from "../../base/SubmitButton";
 import Form from "../../base/Form";
 import MainContainer from "../../base/MainContainer";
+import { toast } from "react-toastify";
 
 interface RegisterFormProps {}
 
@@ -33,9 +34,12 @@ const RegisterForm: FC<RegisterFormProps> = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(user);
-    await registerUser(user);
-    window.location.href = "/login";
+    try {
+      await registerUser(user);
+      window.location.href = "/login";
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (

@@ -3,7 +3,7 @@ import config from "../config.json";
 import Book from "../types/book";
 import BookCreate from "../types/bookCreate";
 import BookPageable from "../types/bookPageable";
-import { getSearchParamsForPagination } from "../utils/pagingUtil";
+import { getSearchParamsForPagination } from "../utils/searchParamsUtil";
 
 const apiEndpoint = config.apiUrl + "books";
 

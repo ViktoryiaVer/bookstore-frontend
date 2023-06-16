@@ -46,7 +46,6 @@ export function getCurrentUser(): UserInfo | undefined {
       sub: string;
       role: string;
     };
-    console.log(username);
     return { username, role };
   }
 }

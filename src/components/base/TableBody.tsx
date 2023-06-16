@@ -2,7 +2,6 @@ import { FC } from "react";
 import _ from "lodash";
 import Column from "../../types/column";
 import useCurrentUser from "../../hooks/useCurrentUser";
-import Button from "./Button";
 import DeleteButton from "./DeleteButton";
 
 interface TableBodyProps {

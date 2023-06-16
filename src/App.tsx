@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import NavBar from "./components/base/NavBar";
 import Home from "./components/views/HomeView";
 import Books from "./components/views/BooksView";
@@ -16,10 +15,14 @@ import Logout from "./components/Logout";
 import AdminProtectedRoute from "./components/routes/AdminProtectedRoute";
 import LoginProtectedRoute from "./components/routes/LoginProtectedRoute";
 import RegisterForm from "./components/views/forms/RegisterForm";
+import { ToastContainer } from "react-toastify";
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
+      <ToastContainer theme="colored" />
       <UserProvider>
         <NavBar />
         <Routes>

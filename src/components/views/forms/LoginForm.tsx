@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
+import { toast } from "react-toastify";
 
 interface LoginFormProps {}
 
@@ -24,8 +25,12 @@ const LoginForm: FC<LoginFormProps> = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    await doLogin(login);
-    window.location.href = state ? state.from.pathname : "/";
+    try {
+      await doLogin(login);
+      window.location.href = state ? state.from.pathname : "/";
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (

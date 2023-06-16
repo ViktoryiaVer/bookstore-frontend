@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../base/Header";
 import Input from "../../base/Input";
@@ -13,6 +13,7 @@ import Form from "../../base/Form";
 import AsyncSelect from "react-select/async";
 import { getAuthorsWithParams } from "../../../services/authorService";
 import { MultiValue } from "react-select";
+import { toast } from "react-toastify";
 
 interface BookFormProps {}
 
@@ -40,9 +41,12 @@ const BookForm: FC<BookFormProps> = () => {
     event.preventDefault();
 
     const data: any = getBookForSavingOrUpdating();
-    await saveOrUpdateBook(data);
-
-    navigate("/books/");
+    try {
+      await saveOrUpdateBook(data);
+      navigate("/books/");
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   const getBookForSavingOrUpdating = (): BookCreate => {

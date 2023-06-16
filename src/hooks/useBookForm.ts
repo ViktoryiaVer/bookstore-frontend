@@ -4,7 +4,6 @@ import { Cover } from "../types/enums/cover";
 import Author from "../types/author";
 import { useParams } from "react-router-dom";
 import { getBook } from "../services/bookService";
-import { getAuthors } from "../services/authorService";
 
 const useBookForm = () => {
   const [book, setBook] = useState<Book>({

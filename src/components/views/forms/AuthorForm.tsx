@@ -7,6 +7,7 @@ import useAuthorForm from "../../../hooks/useAuthorForm";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
+import { toast } from "react-toastify";
 
 interface AuthorFormProps {}
 
@@ -23,9 +24,13 @@ const AuthorForm: FC<AuthorFormProps> = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await saveOrUpdateAuthor(author);
+    try {
+      await saveOrUpdateAuthor(author);
 
-    navigate("/authors/");
+      navigate("/authors/");
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   const getHeaderText = (): string => {
