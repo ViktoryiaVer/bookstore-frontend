@@ -7,6 +7,7 @@ import useAuthors from "../../hooks/useAuthors";
 import { deleteAuthor } from "../../services/authorService";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import MainContainer from "../base/MainContainer";
+import { toast } from "react-toastify";
 
 interface AuthorsProps {}
 
@@ -15,10 +16,14 @@ const Authors: FC<AuthorsProps> = () => {
   const { authors, totalPages, setAuthors } = useAuthors();
 
   const handleDelete = async (authorId: number) => {
-    await deleteAuthor(authorId);
+    try {
+      await deleteAuthor(authorId);
 
-    const filteredAuthors = authors.filter((a) => a.id !== authorId);
-    setAuthors(filteredAuthors);
+      const filteredAuthors = authors.filter((a) => a.id !== authorId);
+      setAuthors(filteredAuthors);
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (

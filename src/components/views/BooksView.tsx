@@ -7,6 +7,7 @@ import Pagination from "../base/Pagination";
 import useBooks from "../../hooks/useBooks";
 import useCurrentUser from "../../hooks/useCurrentUser";
 import MainContainer from "../base/MainContainer";
+import { toast } from "react-toastify";
 
 interface BooksProps {}
 
@@ -15,10 +16,14 @@ const Books: FC<BooksProps> = () => {
   const { books, setBooks, totalPages } = useBooks();
 
   const handleDelete = async (bookId: number) => {
-    await deleteBook(bookId);
+    try {
+      await deleteBook(bookId);
 
-    const filteredBooks = books.filter((b) => b.id !== bookId);
-    setBooks(filteredBooks);
+      const filteredBooks = books.filter((b) => b.id !== bookId);
+      setBooks(filteredBooks);
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (
