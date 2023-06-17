@@ -1,7 +1,15 @@
 import axios, { HttpStatusCode } from "axios";
 import { doLogout } from "./authenticationService";
+import Cookies from "js-cookie";
 
-axios.interceptors.response.use(
+const httpService = axios.create({
+  withCredentials: true,
+  headers: {
+    ["Authorization"]: `Bearer ${Cookies.get("token")}`,
+  },
+});
+
+httpService.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === HttpStatusCode.Unauthorized) {
@@ -16,14 +24,4 @@ axios.interceptors.response.use(
   }
 );
 
-function setJwt(jwt: string | undefined) {
-  axios.defaults.headers.common["Authorization"] = `Bearer ${jwt}`;
-}
-
-export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete,
-  setJwt,
-};
+export default httpService;

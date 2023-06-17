@@ -10,21 +10,21 @@ const useBooks = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getBooksWithParams(searchParams);
-      setBooks(data.books);
-    };
-    fetchData();
-  }, [searchParams]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchBooksInitially = async () => {
       const { data } = await getBooks();
       setBooks(data.books);
       setTotalPages(data.totalPages);
     };
-    fetchData();
+    fetchBooksInitially();
   }, []);
+
+  useEffect(() => {
+    const fetchBooksAfterChangingParams = async () => {
+      const { data } = await getBooksWithParams(searchParams);
+      setBooks(data.books);
+    };
+    fetchBooksAfterChangingParams();
+  }, [searchParams]);
 
   return { books, setBooks, totalPages };
 };

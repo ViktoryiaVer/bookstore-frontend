@@ -24,7 +24,7 @@ const useBookForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBook = async () => {
       if (id === "new") {
         return;
       }
@@ -34,7 +34,7 @@ const useBookForm = () => {
       setSelectedAuthors(data?.authors);
     };
 
-    fetchData();
+    fetchBook();
   }, []);
 
   return {
