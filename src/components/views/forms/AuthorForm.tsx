@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Header from "../../base/Header";
 import { useNavigate } from "react-router-dom";
 import { saveOrUpdateAuthor } from "../../../services/authorService";
@@ -8,22 +8,37 @@ import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
 import { toast } from "react-toastify";
+import { AuthorValidationSchema } from "../../../validation/AuthorValidationSchema copy";
+import { validate, validateField } from "../../../utils/validationUtils";
 
 interface AuthorFormProps {}
 
 const AuthorForm: FC<AuthorFormProps> = () => {
   const { author, setAuthor, id } = useAuthorForm();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...author };
     const { name, value } = event.currentTarget;
     data[name] = value;
     setAuthor(data);
+
+    const checkedFieldError = await validateField(
+      name,
+      value,
+      AuthorValidationSchema
+    );
+    const newErrors = { ...errors, [name]: checkedFieldError[name] };
+    setErrors(newErrors);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const errors = await validate(AuthorValidationSchema, author);
+    setErrors(errors || {});
+    if (errors) return;
+
     try {
       await saveOrUpdateAuthor(author);
 
@@ -48,6 +63,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
             value={author.firstName}
             onChange={handleChange}
             type="text"
+            error={errors.firstName}
           />
 
           <Input
@@ -56,6 +72,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
             value={author.lastName}
             onChange={handleChange}
             type="text"
+            error={errors.lastName}
           />
           <Input
             name="birthdate"
@@ -63,6 +80,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
             value={author.birthdate.toLocaleString()}
             onChange={handleChange}
             type="date"
+            error={errors.birthdate}
           />
           <SubmitButton className="btn btn-primary m-2" text="Save" />
         </Form>

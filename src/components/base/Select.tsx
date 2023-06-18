@@ -9,6 +9,7 @@ interface SelectProps {
   valuePath?: string;
   options: any[];
   onChange(event: React.ChangeEvent<HTMLSelectElement>): void;
+  error?: string;
 }
 
 const Select: FC<SelectProps> = ({
@@ -17,6 +18,7 @@ const Select: FC<SelectProps> = ({
   isMulti,
   options,
   valuePath,
+  error,
   ...rest
 }) => {
   return (
@@ -39,6 +41,7 @@ const Select: FC<SelectProps> = ({
           </option>
         ))}
       </select>
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };

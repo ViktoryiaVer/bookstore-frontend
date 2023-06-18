@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 const httpService = axios.create({
   withCredentials: true,
   headers: {
-    ["Authorization"]: `Bearer ${Cookies.get("token")}`,
+    Authorization: `Bearer ${Cookies.get("token")}`,
   },
 });
 

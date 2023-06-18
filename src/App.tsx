@@ -27,9 +27,13 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route element={<AdminProtectedRoute />}>
+          <Route element={<AdminProtectedRoute redirectPath="/books" />}>
             <Route path="/books/:id" element={<BookForm />} />
+          </Route>
+          <Route element={<AdminProtectedRoute redirectPath="/authors" />}>
             <Route path="/authors/:id" element={<AuthorForm />} />
+          </Route>
+          <Route element={<AdminProtectedRoute redirectPath="/authors" />}>
             <Route path="/orders" element={<Orders />}></Route>
             <Route path="/payments" element={<Payments />}></Route>
             <Route path="/users" element={<Users />}></Route>

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../base/Header";
 import Input from "../../base/Input";
@@ -10,37 +10,57 @@ import Author from "../../../types/author";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
-import AsyncSelect from "react-select/async";
 import { getAuthorsWithParams } from "../../../services/authorService";
-import { MultiValue } from "react-select";
+import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
+import { validate, validateField } from "../../../utils/validationUtils";
+import { BookValidationSchema } from "../../../validation/BookValidationSchema";
+import CustomAsyncSelect from "../../base/CustomAsyncSelect";
 
 interface BookFormProps {}
 
 const BookForm: FC<BookFormProps> = () => {
   const { book, setBook, id, covers, selectedAuthors, setSelectedAuthors } =
     useBookForm();
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleChange = (
+  const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const data: any = { ...book };
     const { name, value } = event.currentTarget;
     data[name] = value;
     setBook(data);
+
+    const checkedFieldError = await validateField(
+      name,
+      value,
+      BookValidationSchema
+    );
+    const newErrors = { ...errors, [name]: checkedFieldError[name] };
+    setErrors(newErrors);
   };
 
-  const handleAuthorChange = (newValue: MultiValue<Author>) => {
+  const handleAuthorChange = (
+    newValue: MultiValue<Author>,
+    actionMeta: ActionMeta<any>
+  ) => {
     setSelectedAuthors([...newValue]);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data: any = getBookForSavingOrUpdating();
+    const data: BookCreate = getBookForSavingOrUpdating();
+
+    const errors = await validate(BookValidationSchema, data);
+    setErrors(errors || {});
+    console.log(errors, data);
+    if (errors) return;
+
     try {
       await saveOrUpdateBook(data);
       navigate("/books/");
@@ -78,6 +98,7 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.title}
             onChange={handleChange}
             type="text"
+            error={errors.title}
           />
           <Input
             name="publisher"
@@ -85,6 +106,7 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.publisher}
             onChange={handleChange}
             type="text"
+            error={errors.publisher}
           />
           <Input
             name="isbn"
@@ -92,6 +114,7 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.isbn || ""}
             onChange={handleChange}
             type="text"
+            error={errors.isbn}
           />
           <Input
             name="yearOfPublication"
@@ -99,6 +122,7 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.yearOfPublication}
             onChange={handleChange}
             type="number"
+            error={errors.yearOfPublication}
           />
           <Input
             name="price"
@@ -106,6 +130,7 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.price.toLocaleString()}
             onChange={handleChange}
             type="number"
+            error={errors.price}
           />
           <Select
             isMulti={false}
@@ -114,18 +139,20 @@ const BookForm: FC<BookFormProps> = () => {
             value={book.cover}
             onChange={handleChange}
             options={covers}
+            error={errors.cover}
           />
-          <label htmlFor="async-select">Author(s)</label>
-          <AsyncSelect
+          <CustomAsyncSelect
+            label="Author(s)"
             id="async-select"
             className="ms-0 m-2"
-            isMulti
+            isMulti={true}
             value={selectedAuthors}
             getOptionLabel={(option) => option.lastName}
             getOptionValue={(option) => option.lastName}
             placeholder="Type author lastname to search"
             onChange={handleAuthorChange}
             loadOptions={loadOptions}
+            error={errors.authorIds}
           />
           <SubmitButton className="btn btn-primary m-2" text="Save" />
         </Form>

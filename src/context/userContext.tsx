@@ -1,9 +1,9 @@
-import { FC, ReactNode, createContext } from "react";
+import { FC, createContext } from "react";
 import { getCurrentUser } from "../services/authenticationService";
 import UserInfo from "../types/userInfoForContext";
 
 interface UserContextProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const UserContext = createContext<UserInfo | undefined>({
