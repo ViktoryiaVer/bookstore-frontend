@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import AuthorsTable from "./AuthorsTable";
-import Header from "./base/Header";
-import Pagination from "./base/Pagination";
-import useAuthors from "../hooks/useAuthors";
-import { deleteAuthor } from "../services/authorService";
-import useCurrentUser from "../hooks/useCurrentUser";
+import AuthorsTable from "../tables/AuthorsTable";
+import Header from "../base/Header";
+import Pagination from "../base/Pagination";
+import useAuthors from "../../hooks/useAuthors";
+import { deleteAuthor } from "../../services/authorService";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import MainContainer from "../base/MainContainer";
+import { toast } from "react-toastify";
 
 interface AuthorsProps {}
 
@@ -14,16 +16,20 @@ const Authors: FC<AuthorsProps> = () => {
   const { authors, totalPages, setAuthors } = useAuthors();
 
   const handleDelete = async (authorId: number) => {
-    await deleteAuthor(authorId);
+    try {
+      await deleteAuthor(authorId);
 
-    const filteredAuthors = authors.filter((a) => a.id !== authorId);
-    setAuthors(filteredAuthors);
+      const filteredAuthors = authors.filter((a) => a.id !== authorId);
+      setAuthors(filteredAuthors);
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (
     <>
       <Header text="Authors" />
-      <main className="table-container">
+      <MainContainer className="table-container">
         {isAdmin && (
           <Link
             to="/authors/new"
@@ -35,7 +41,7 @@ const Authors: FC<AuthorsProps> = () => {
         )}
         <AuthorsTable data={authors} onDelete={handleDelete} />
         <Pagination totalPages={totalPages} />
-      </main>
+      </MainContainer>
     </>
   );
 };

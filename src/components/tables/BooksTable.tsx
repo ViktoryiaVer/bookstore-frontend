@@ -1,7 +1,7 @@
 import { FC } from "react";
-import Book from "../types/book";
-import Table from "./base/Table";
-import Author from "../types/author";
+import Book from "../../types/book";
+import Table from "../base/Table";
+import Author from "../../types/author";
 import { Link } from "react-router-dom";
 
 interface BooksTableProps {
@@ -45,10 +45,11 @@ const BooksTable: FC<BooksTableProps> = ({ data, onDelete }) => {
       content: (item: Book) => (
         <ul className="book-author-list">
           {item.authors.map((author: Author) => (
-            <Link
-              key={author.id}
-              to={`/authors/${author.id}`}
-            >{`${author.firstName} ${author.lastName}`}</Link>
+            <li key={author.id}>
+              <Link
+                to={`/authors/${author.id}`}
+              >{`${author.firstName} ${author.lastName} `}</Link>
+            </li>
           ))}
         </ul>
       ),

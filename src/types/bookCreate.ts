@@ -1,4 +1,3 @@
-import Author from "./author";
 import { Cover } from "./enums/cover";
 
 type Book = {

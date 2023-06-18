@@ -2,6 +2,7 @@ import { FC } from "react";
 import _ from "lodash";
 import Column from "../../types/column";
 import useCurrentUser from "../../hooks/useCurrentUser";
+import DeleteButton from "./DeleteButton";
 
 interface TableBodyProps {
   data: any[];
@@ -21,12 +22,10 @@ const TableBody: FC<TableBodyProps> = ({ data, columns, onDelete }) => {
           ))}
           {isAdmin && (
             <td>
-              <button
+              <DeleteButton
                 className="btn btn-danger btn-sm"
                 onClick={() => onDelete(item.id)}
-              >
-                Delete
-              </button>
+              />
             </td>
           )}
         </tr>

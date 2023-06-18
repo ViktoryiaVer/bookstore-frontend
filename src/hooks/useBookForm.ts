@@ -4,7 +4,6 @@ import { Cover } from "../types/enums/cover";
 import Author from "../types/author";
 import { useParams } from "react-router-dom";
 import { getBook } from "../services/bookService";
-import { getAuthors } from "../services/authorService";
 
 const useBookForm = () => {
   const [book, setBook] = useState<Book>({
@@ -16,9 +15,7 @@ const useBookForm = () => {
     cover: Cover.HARD,
     authors: [],
   });
-  const [authors, setAuthors] = useState<Author[]>([]);
-
-  const [selectedAuthor, setSelectedAuthor] = useState("");
+  const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
 
   const covers = Object.values(Cover).filter(
     (value) => typeof value === "string"
@@ -27,34 +24,26 @@ const useBookForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchBook = async () => {
       if (id === "new") {
         return;
       }
 
       const { data } = await getBook(Number(id));
       setBook(data);
-      setSelectedAuthor(data?.authors[0].lastName || "");
-      console.log(selectedAuthor);
+      setSelectedAuthors(data?.authors);
     };
 
-    fetchData();
-    fetchAuthors();
+    fetchBook();
   }, []);
-
-  const fetchAuthors = async () => {
-    const { data } = await getAuthors();
-    return setAuthors(data.authors);
-  };
 
   return {
     book,
     setBook,
     id,
-    authors,
     covers,
-    selectedAuthor,
-    setSelectedAuthor,
+    selectedAuthors,
+    setSelectedAuthors,
   };
 };
 

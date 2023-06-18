@@ -11,8 +11,6 @@ const apiLoginEndpoint = config.apiUrl + "auth/login";
 const apiSignupEndpoint = config.apiUrl + "auth/signup";
 const tokenKey = "token";
 
-http.setJwt(getJwt());
-
 export function registerUser(user: UserAccount) {
   return http.post(apiSignupEndpoint, user);
 }
@@ -46,11 +44,6 @@ export function getCurrentUser(): UserInfo | undefined {
       sub: string;
       role: string;
     };
-    console.log(username);
     return { username, role };
   }
-}
-
-export function getJwt() {
-  return Cookie.get(tokenKey);
 }

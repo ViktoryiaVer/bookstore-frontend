@@ -13,7 +13,7 @@ const useAuthorForm = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchAuthor = async () => {
       if (id === "new") {
         return;
       }
@@ -22,7 +22,7 @@ const useAuthorForm = () => {
       setAuthor(data);
     };
 
-    fetchData();
+    fetchAuthor();
   }, []);
 
   return { author, setAuthor, id };

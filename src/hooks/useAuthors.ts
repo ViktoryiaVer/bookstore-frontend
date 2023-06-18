@@ -10,21 +10,21 @@ const useAuthors = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const { data } = await getAuthorsWithParams(searchParams);
-      setAuthors(data.authors);
-    };
-    fetchData();
-  }, [searchParams]);
-
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchAuthorsInitially = async () => {
       const { data } = await getAuthors();
       setAuthors(data.authors);
       setTotalPages(data.totalPages);
     };
-    fetchData();
+    fetchAuthorsInitially();
   }, []);
+
+  useEffect(() => {
+    const fetchAuthorsAfterChangingParams = async () => {
+      const { data } = await getAuthorsWithParams(searchParams);
+      setAuthors(data.authors);
+    };
+    fetchAuthorsAfterChangingParams();
+  }, [searchParams]);
 
   return { authors, totalPages, setAuthors };
 };

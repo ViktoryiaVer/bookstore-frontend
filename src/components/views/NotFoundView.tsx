@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Header from "./base/Header";
+import Header from "../base/Header";
 interface NotFoundProps {}
 
 const NotFound: FC<NotFoundProps> = () => {

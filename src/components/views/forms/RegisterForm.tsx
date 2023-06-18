@@ -1,10 +1,14 @@
 import { FC, useState } from "react";
-import Header from "./base/Header";
-import Input from "./base/Input";
-import UserAccount from "../types/userAccount";
-import { Role } from "../types/enums/role";
-import { registerUser } from "../services/authenticationService";
+import Header from "../../base/Header";
+import Input from "../../base/Input";
+import UserAccount from "../../../types/userAccount";
+import { Role } from "../../../types/enums/role";
+import { registerUser } from "../../../services/authenticationService";
 import _ from "lodash";
+import SubmitButton from "../../base/SubmitButton";
+import Form from "../../base/Form";
+import MainContainer from "../../base/MainContainer";
+import { toast } from "react-toastify";
 
 interface RegisterFormProps {}
 
@@ -30,16 +34,19 @@ const RegisterForm: FC<RegisterFormProps> = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log(user);
-    await registerUser(user);
-    window.location.href = "/login";
+    try {
+      await registerUser(user);
+      window.location.href = "/login";
+    } catch (ex: any) {
+      toast.error(ex.response.data.message);
+    }
   };
 
   return (
     <>
       <Header text={"Register"} />
-      <main className="form-container">
-        <form onSubmit={handleSubmit} className="form">
+      <MainContainer className="form-container">
+        <Form onSubmit={handleSubmit}>
           <Input
             name="firstName"
             label="First name"
@@ -47,7 +54,6 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             onChange={handleChange}
             type="text"
           />
-
           <Input
             name="lastName"
             label="Last name"
@@ -83,11 +89,9 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             onChange={handleChange}
             type="password"
           />
-          <button type="submit" className="btn btn-primary m-2">
-            Register
-          </button>
-        </form>
-      </main>
+          <SubmitButton className="btn btn-primary m-2" text="Register" />
+        </Form>
+      </MainContainer>
     </>
   );
 };
