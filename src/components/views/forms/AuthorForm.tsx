@@ -8,7 +8,7 @@ import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
 import { toast } from "react-toastify";
-import { AuthorValidationSchema } from "../../../validation/AuthorValidationSchema copy";
+import { AuthorFormValidationSchema } from "../../../validation/authorFormValidationSchema";
 import { validate, validateField } from "../../../utils/validationUtils";
 
 interface AuthorFormProps {}
@@ -27,7 +27,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
     const checkedFieldError = await validateField(
       name,
       value,
-      AuthorValidationSchema
+      AuthorFormValidationSchema
     );
     const newErrors = { ...errors, [name]: checkedFieldError[name] };
     setErrors(newErrors);
@@ -35,7 +35,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const errors = await validate(AuthorValidationSchema, author);
+    const errors = await validate(AuthorFormValidationSchema, author);
     setErrors(errors || {});
     if (errors) return;
 

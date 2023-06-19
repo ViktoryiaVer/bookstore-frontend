@@ -9,6 +9,8 @@ import SubmitButton from "../../base/SubmitButton";
 import Form from "../../base/Form";
 import MainContainer from "../../base/MainContainer";
 import { toast } from "react-toastify";
+import { validate, validateField } from "../../../utils/validationUtils";
+import { RegisterFormVaidationSchema } from "../../../validation/registerFormValidationSchema";
 
 interface RegisterFormProps {}
 
@@ -21,24 +23,38 @@ const RegisterForm: FC<RegisterFormProps> = () => {
     role: Role.USER,
     login: { username: "", password: "" },
   });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...user };
 
     const { name, value } = event.currentTarget;
-    console.log(name);
     _.set(data, name, value);
     setUser(data);
+
+    const checkedFieldError = await validateField(
+      name,
+      value,
+      RegisterFormVaidationSchema
+    );
+    const newErrors = { ...errors, [name]: checkedFieldError[name] };
+    setErrors(newErrors);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const errors = await validate(RegisterFormVaidationSchema, user);
+    setErrors(errors || {});
+    console.log(errors);
+    if (errors) return;
 
     try {
       await registerUser(user);
       window.location.href = "/login";
     } catch (ex: any) {
       toast.error(ex.response.data.message);
+      console.log(ex.response.data);
     }
   };
 
@@ -53,6 +69,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.firstName}
             onChange={handleChange}
             type="text"
+            error={errors.firstName}
           />
           <Input
             name="lastName"
@@ -60,6 +77,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.lastName}
             onChange={handleChange}
             type="text"
+            error={errors.lastName}
           />
           <Input
             name="email"
@@ -67,6 +85,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.email}
             onChange={handleChange}
             type="email"
+            error={errors.email}
           />
           <Input
             name="phoneNumber"
@@ -74,6 +93,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.phoneNumber}
             onChange={handleChange}
             type="tel"
+            error={errors.phoneNumber}
           />
           <Input
             name="login.username"
@@ -81,6 +101,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.login.username}
             onChange={handleChange}
             type="text"
+            error={errors["login.username"]}
           />
           <Input
             name="login.password"
@@ -88,6 +109,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
             value={user.login.password}
             onChange={handleChange}
             type="password"
+            error={errors["login.password"]}
           />
           <SubmitButton className="btn btn-primary m-2" text="Register" />
         </Form>

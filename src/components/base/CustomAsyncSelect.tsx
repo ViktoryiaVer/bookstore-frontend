@@ -35,7 +35,7 @@ const CustomAsyncSelect: FC<CustomAsyncSelectProps> = ({
     <div className={className}>
       <label htmlFor={id}>{label}</label>
       <AsyncSelect id={id} className={className} {...rest} />
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="alert alert-danger p-2 m-0">{error}</div>}
     </div>
   );
 };

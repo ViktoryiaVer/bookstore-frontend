@@ -7,18 +7,20 @@ const useAuthorForm = () => {
   const [author, setAuthor] = useState<Author>({
     firstName: "",
     lastName: "",
-    birthdate: new Date(),
+    birthdate: new Date().toISOString().split("T")[0],
   });
 
   const { id } = useParams();
 
   useEffect(() => {
     const fetchAuthor = async () => {
+      console.log(author);
       if (id === "new") {
         return;
       }
 
       const { data } = await getAuthor(Number(id));
+      console.log(data);
       setAuthor(data);
     };
 

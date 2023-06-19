@@ -1,7 +1,9 @@
-import { array, mixed, number, object, string } from "yup";
+import { SchemaOf, array, mixed, number, object, string } from "yup";
 import BookCreate from "../types/bookCreate";
 import { Cover } from "../types/enums/cover";
-export const BookValidationSchema = object<BookCreate>({
+
+export const BookFormValidationSchema: SchemaOf<BookCreate> = object({
+  id: number(),
   title: string().trim().required("Title is required"),
   publisher: string().trim().required("Publisher is required"),
   isbn: string().trim().required("ISBN is required"),
@@ -23,5 +25,5 @@ export const BookValidationSchema = object<BookCreate>({
     .required(),
   authorIds: array<Number>()
     .required("Authors are required")
-    .min(1, "At least one author shuld be spicified"),
+    .min(1, "At least one author should be specified"),
 });

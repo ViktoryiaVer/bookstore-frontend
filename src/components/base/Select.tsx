@@ -41,7 +41,7 @@ const Select: FC<SelectProps> = ({
           </option>
         ))}
       </select>
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="alert alert-danger p-2">{error}</div>}
     </div>
   );
 };

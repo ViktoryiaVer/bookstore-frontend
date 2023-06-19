@@ -14,7 +14,7 @@ import { getAuthorsWithParams } from "../../../services/authorService";
 import { ActionMeta, MultiValue } from "react-select";
 import { toast } from "react-toastify";
 import { validate, validateField } from "../../../utils/validationUtils";
-import { BookValidationSchema } from "../../../validation/BookValidationSchema";
+import { BookFormValidationSchema } from "../../../validation/bookFormValidationSchema";
 import CustomAsyncSelect from "../../base/CustomAsyncSelect";
 
 interface BookFormProps {}
@@ -38,7 +38,7 @@ const BookForm: FC<BookFormProps> = () => {
     const checkedFieldError = await validateField(
       name,
       value,
-      BookValidationSchema
+      BookFormValidationSchema
     );
     const newErrors = { ...errors, [name]: checkedFieldError[name] };
     setErrors(newErrors);
@@ -56,9 +56,8 @@ const BookForm: FC<BookFormProps> = () => {
 
     const data: BookCreate = getBookForSavingOrUpdating();
 
-    const errors = await validate(BookValidationSchema, data);
+    const errors = await validate(BookFormValidationSchema, data);
     setErrors(errors || {});
-    console.log(errors, data);
     if (errors) return;
 
     try {
@@ -144,7 +143,7 @@ const BookForm: FC<BookFormProps> = () => {
           <CustomAsyncSelect
             label="Author(s)"
             id="async-select"
-            className="ms-0 m-2"
+            className="ms-0 mb-0 m-2"
             isMulti={true}
             value={selectedAuthors}
             getOptionLabel={(option) => option.lastName}

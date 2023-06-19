@@ -14,7 +14,7 @@ const Input: FC<InputProps> = ({ label, name, error, ...rest }) => {
     <div className="form-group">
       <label htmlFor={name}>{label}</label>
       <input className="form-control" id={name} name={name} {...rest} />
-      {error && <div className="alert alert-danger">{error}</div>}
+      {error && <div className="alert alert-danger p-2 mb-0">{error}</div>}
     </div>
   );
 };

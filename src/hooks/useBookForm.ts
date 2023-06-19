@@ -11,7 +11,7 @@ const useBookForm = () => {
     publisher: "",
     isbn: "",
     yearOfPublication: 0,
-    price: BigInt(0),
+    price: 0,
     cover: Cover.HARD,
     authors: [],
   });
