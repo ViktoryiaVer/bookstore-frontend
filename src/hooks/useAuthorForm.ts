@@ -14,13 +14,11 @@ const useAuthorForm = () => {
 
   useEffect(() => {
     const fetchAuthor = async () => {
-      console.log(author);
       if (id === "new") {
         return;
       }
 
       const { data } = await getAuthor(Number(id));
-      console.log(data);
       setAuthor(data);
     };
 
