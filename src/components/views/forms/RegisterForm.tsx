@@ -11,6 +11,7 @@ import MainContainer from "../../base/MainContainer";
 import { toast } from "react-toastify";
 import { validate, validateField } from "../../../utils/validationUtils";
 import { RegisterFormVaidationSchema } from "../../../validation/registerFormValidationSchema";
+import { usePageLoader } from "../../../hooks/usePageLoader";
 
 interface RegisterFormProps {}
 
@@ -24,6 +25,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
     login: { username: "", password: "" },
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { loader, showLoader, hideLoader } = usePageLoader();
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...user };
@@ -50,7 +52,10 @@ const RegisterForm: FC<RegisterFormProps> = () => {
     if (errors) return;
 
     try {
+      showLoader();
       await registerUser(user);
+      hideLoader();
+
       window.location.href = "/login";
     } catch (ex: any) {
       toast.error(ex.response.data.message);
@@ -113,6 +118,7 @@ const RegisterForm: FC<RegisterFormProps> = () => {
           />
           <SubmitButton className="btn btn-primary m-2" text="Register" />
         </Form>
+        <>{loader}</>
       </MainContainer>
     </>
   );

@@ -1,11 +1,10 @@
-import { FC, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { FC, useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Header from "../../base/Header";
 import Input from "../../base/Input";
-import { saveOrUpdateBook } from "../../../services/bookService";
+import { getBook, saveOrUpdateBook } from "../../../services/bookService";
 import Select from "../../base/Select";
 import BookCreate from "../../../types/bookCreate";
-import useBookForm from "../../../hooks/useBookForm";
 import Author from "../../../types/author";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
@@ -16,16 +15,48 @@ import { toast } from "react-toastify";
 import { validate, validateField } from "../../../utils/validationUtils";
 import { BookFormValidationSchema } from "../../../validation/bookFormValidationSchema";
 import CustomAsyncSelect from "../../base/CustomAsyncSelect";
+import Book from "../../../types/book";
+import { Cover } from "../../../types/enums/cover";
+import { usePageLoader } from "../../../hooks/usePageLoader";
 
 interface BookFormProps {}
 
 const BookForm: FC<BookFormProps> = () => {
-  const { book, setBook, id, covers, selectedAuthors, setSelectedAuthors } =
-    useBookForm();
+  const [book, setBook] = useState<Book>({
+    title: "",
+    publisher: "",
+    isbn: "",
+    yearOfPublication: 0,
+    price: 0,
+    cover: Cover.HARD,
+    authors: [],
+  });
+  const covers = Object.values(Cover).filter(
+    (value) => typeof value === "string"
+  ) as string[];
+  const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { loader, showLoader, hideLoader } = usePageLoader();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { id } = useParams();
 
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    const fetchBook = async () => {
+      if (id === "new") {
+        return;
+      }
+      showLoader();
+      const { data } = await getBook(Number(id));
+      hideLoader();
+
+      setBook(data);
+      setSelectedAuthors(data?.authors);
+    };
+
+    fetchBook();
+  }, []);
 
   const handleChange = async (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -61,7 +92,10 @@ const BookForm: FC<BookFormProps> = () => {
     if (errors) return;
 
     try {
+      showLoader();
       await saveOrUpdateBook(data);
+      hideLoader();
+
       navigate("/books/");
     } catch (ex: any) {
       toast.error(ex.response.data.message);
@@ -155,6 +189,7 @@ const BookForm: FC<BookFormProps> = () => {
           />
           <SubmitButton className="btn btn-primary m-2" text="Save" />
         </Form>
+        <>{loader}</>
       </MainContainer>
     </>
   );

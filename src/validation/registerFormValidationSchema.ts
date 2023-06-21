@@ -24,16 +24,4 @@ export const RegisterFormVaidationSchema: SchemaOf<UserAccount> = object({
     .oneOf(Object.values(Role) as Role[], "Role is required")
     .required(),
   login: LoginFormVaidationSchema,
-
-  //   "login.username": string()
-  //     .trim()
-  //     .required("Username is required")
-  //     .matches(/^[A-Za-z]\w{5,29}$/, "Username is invalid"),
-  //   "login.password": string()
-  //     .trim()
-  //     .required("Password is required")
-  //     .matches(
-  //       /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&-+=()])(?=\S+$).{8,}$/,
-  //       "Password is invalid"
-  //     ),
 });

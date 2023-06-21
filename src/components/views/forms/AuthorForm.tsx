@@ -1,22 +1,45 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Header from "../../base/Header";
-import { useNavigate } from "react-router-dom";
-import { saveOrUpdateAuthor } from "../../../services/authorService";
+import { useNavigate, useParams } from "react-router-dom";
+import { getAuthor, saveOrUpdateAuthor } from "../../../services/authorService";
 import Input from "../../base/Input";
-import useAuthorForm from "../../../hooks/useAuthorForm";
 import SubmitButton from "../../base/SubmitButton";
 import MainContainer from "../../base/MainContainer";
 import Form from "../../base/Form";
 import { toast } from "react-toastify";
 import { AuthorFormValidationSchema } from "../../../validation/authorFormValidationSchema";
 import { validate, validateField } from "../../../utils/validationUtils";
+import Author from "../../../types/author";
+import { usePageLoader } from "../../../hooks/usePageLoader";
 
 interface AuthorFormProps {}
 
 const AuthorForm: FC<AuthorFormProps> = () => {
-  const { author, setAuthor, id } = useAuthorForm();
+  const [author, setAuthor] = useState<Author>({
+    firstName: "",
+    lastName: "",
+    birthdate: new Date().toISOString().split("T")[0],
+  });
+  const { loader, showLoader, hideLoader } = usePageLoader();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const { id } = useParams();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      if (id === "new") {
+        return;
+      }
+
+      showLoader();
+      const { data } = await getAuthor(Number(id));
+      hideLoader();
+      setAuthor(data);
+    };
+
+    fetchAuthor();
+  }, []);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const data: any = { ...author };
@@ -40,7 +63,9 @@ const AuthorForm: FC<AuthorFormProps> = () => {
     if (errors) return;
 
     try {
+      showLoader();
       await saveOrUpdateAuthor(author);
+      hideLoader();
 
       navigate("/authors/");
     } catch (ex: any) {
@@ -84,6 +109,7 @@ const AuthorForm: FC<AuthorFormProps> = () => {
           />
           <SubmitButton className="btn btn-primary m-2" text="Save" />
         </Form>
+        <>{loader}</>
       </MainContainer>
     </>
   );
