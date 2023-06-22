@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { ROUTES } from "./constants/routes";
 import NavBar from "./components/base/NavBar";
 import Home from "./components/views/HomeView";
 import Books from "./components/views/BooksView";
@@ -26,24 +27,26 @@ function App() {
       <UserProvider>
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route element={<AdminProtectedRoute redirectPath="/books" />}>
-            <Route path="/books/:id" element={<BookForm />} />
+          <Route path={ROUTES.HOME} element={<Home />}></Route>
+          <Route element={<AdminProtectedRoute redirectPath={ROUTES.BOOKS} />}>
+            <Route path={ROUTES.BOOKS_EDIT} element={<BookForm />} />
           </Route>
-          <Route element={<AdminProtectedRoute redirectPath="/authors" />}>
-            <Route path="/authors/:id" element={<AuthorForm />} />
+          <Route
+            element={<AdminProtectedRoute redirectPath={ROUTES.AUTHORS} />}
+          >
+            <Route path={ROUTES.AUTHORS_EDIT} element={<AuthorForm />} />
           </Route>
-          <Route element={<AdminProtectedRoute redirectPath="/authors" />}>
-            <Route path="/orders" element={<Orders />}></Route>
-            <Route path="/payments" element={<Payments />}></Route>
-            <Route path="/users" element={<Users />}></Route>
+          <Route element={<AdminProtectedRoute />}>
+            <Route path={ROUTES.ORDERS} element={<Orders />}></Route>
+            <Route path={ROUTES.PAYMENTS} element={<Payments />}></Route>
+            <Route path={ROUTES.USERS} element={<Users />}></Route>
           </Route>
-          <Route path="/login" element={<LoginForm />}></Route>
-          <Route path="/signup" element={<RegisterForm />} />
+          <Route path={ROUTES.LOGIN} element={<LoginForm />}></Route>
+          <Route path={ROUTES.SIGNUP} element={<RegisterForm />} />
           <Route element={<LoginProtectedRoute />}>
-            <Route path="/books" element={<Books />}></Route>
-            <Route path="/authors" element={<Authors />}></Route>
-            <Route path="/logout" element={<Logout />}></Route>
+            <Route path={ROUTES.BOOKS} element={<Books />}></Route>
+            <Route path={ROUTES.AUTHORS} element={<Authors />}></Route>
+            <Route path={ROUTES.LOGOUT} element={<Logout />}></Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

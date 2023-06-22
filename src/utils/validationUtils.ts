@@ -18,11 +18,11 @@ export const validate = async (
 
 export const validateField = async (
   name: string,
-  value: string,
+  value: any,
   schema: ObjectSchema<any>
 ) => {
   try {
-    await schema.validateAt(name, { [name]: value });
+    await schema.validateAt(name, { [name]: value }, { abortEarly: false });
     return { [name]: "" };
   } catch (err: any) {
     return { [name]: err.message };

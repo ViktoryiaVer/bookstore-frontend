@@ -6,7 +6,7 @@ type Book = {
   publisher: string;
   isbn: string;
   yearOfPublication: number;
-  price: BigInt;
+  price: number;
   cover: Cover;
   authorIds: number[];
 };
