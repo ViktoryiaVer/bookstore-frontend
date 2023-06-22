@@ -1,29 +1,30 @@
 import { SchemaOf, array, mixed, number, object, string } from "yup";
 import BookCreate from "../types/bookCreate";
 import { Cover } from "../types/enums/cover";
+import { MESSAGES } from "../constants/messages";
 
 export const BookFormValidationSchema: SchemaOf<BookCreate> = object({
   id: number(),
-  title: string().trim().required("Title is required"),
-  publisher: string().trim().required("Publisher is required"),
-  isbn: string().trim().required("ISBN is required"),
+  title: string().trim().required(MESSAGES.REQUIRED.TITLE),
+  publisher: string().trim().required(MESSAGES.REQUIRED.PUBLISHER),
+  isbn: string().trim().required(MESSAGES.REQUIRED.ISBN),
   yearOfPublication: number()
-    .required("Year of publication is required")
-    .min(1800, "Year of publication is invalid")
-    .max(2100, "Year of publication is invalid"),
+    .required(MESSAGES.REQUIRED.YEAR_OF_PUBLICATION)
+    .min(1800, MESSAGES.VALID.YEAR_OF_PUBLICATION_MIN)
+    .max(2100, MESSAGES.VALID.YEAR_OF_PUBLICATION_MAX),
   price: number()
-    .required("Price is required")
-    .min(0.01, "Price is invalid")
-    .max(10000.0, "Price is invalid"),
+    .required(MESSAGES.REQUIRED.PRICE)
+    .min(0.01, MESSAGES.VALID.PRICE_MIN)
+    .max(10000.0, MESSAGES.VALID.PRICE_MAX),
   cover: mixed<Cover>()
     .oneOf(
       Object.values(Cover).filter(
         (value) => typeof value === "string"
       ) as Cover[],
-      "Cover is required"
+      MESSAGES.REQUIRED.COVER
     )
     .required(),
   authorIds: array<Number>()
-    .required("Authors are required")
-    .min(1, "At least one author should be specified"),
+    .required(MESSAGES.REQUIRED.AUTHORS)
+    .min(1, MESSAGES.VALID.AUTHORS_LENGTH),
 });

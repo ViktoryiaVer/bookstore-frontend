@@ -1,6 +1,8 @@
-import React from "react";
+import { FC } from "react";
 
-const LoadingSpinner = () => {
+interface LoadingSpinnerProps {}
+
+const LoadingSpinner: FC<LoadingSpinnerProps> = () => {
   return (
     <div className="spinner-border text-secondary" role="status">
       <span className="visually-hidden">Loading...</span>

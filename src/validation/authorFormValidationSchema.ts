@@ -1,15 +1,16 @@
 import { SchemaOf, number, object, string } from "yup";
 import Author from "../types/author";
+import { MESSAGES } from "../constants/messages";
 
 export const AuthorFormValidationSchema: SchemaOf<Author> = object({
   id: number(),
   firstName: string()
     .trim()
-    .required("First name is required")
-    .matches(/^[a-zA-Z\s-]*$/, "First name is invalid"),
+    .required(MESSAGES.REQUIRED.FIRST_NAME)
+    .matches(/^[a-zA-Z\s-]*$/, MESSAGES.VALID.FIRST_NAME),
   lastName: string()
     .trim()
-    .required("Last name is required")
-    .matches(/^[a-zA-Z\s-]*$/, "Last name is invalid"),
-  birthdate: string().required("Birth date is required"),
+    .required(MESSAGES.REQUIRED.LAST_NAME)
+    .matches(/^[a-zA-Z\s-]*$/, MESSAGES.VALID.LAST_NAME),
+  birthdate: string().required(MESSAGES.REQUIRED.BIRTHDATE),
 });

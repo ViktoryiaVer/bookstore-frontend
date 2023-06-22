@@ -2,26 +2,27 @@ import { SchemaOf, mixed, object, string } from "yup";
 import UserAccount from "../types/userAccount";
 import { LoginFormVaidationSchema } from "./loginFormValidationSchema";
 import { Role } from "../types/enums/role";
+import { MESSAGES } from "../constants/messages";
 
 export const RegisterFormVaidationSchema: SchemaOf<UserAccount> = object({
   firstName: string()
     .trim()
-    .required("First name is required")
-    .matches(/^[a-zA-Z\s-]*$/, "First name is invalid"),
+    .required(MESSAGES.REQUIRED.FIRST_NAME)
+    .matches(/^[a-zA-Z\s-]*$/, MESSAGES.VALID.FIRST_NAME),
   lastName: string()
     .trim()
-    .required("Last name is required")
-    .matches(/^[a-zA-Z\s-]*$/, "Last name is invalid"),
+    .required(MESSAGES.REQUIRED.LAST_NAME)
+    .matches(/^[a-zA-Z\s-]*$/, MESSAGES.VALID.LAST_NAME),
   email: string()
     .trim()
-    .required("Email is required")
-    .email("Email is invalid"),
+    .required(MESSAGES.REQUIRED.EMAIL)
+    .email(MESSAGES.VALID.EMAIL),
   phoneNumber: string()
     .trim()
-    .required("Phone number is required")
-    .matches(/\+[0-9]{10,}/, "Phone number is invalid"),
+    .required(MESSAGES.REQUIRED.PHONE_NUMBER)
+    .matches(/\+[0-9]{10,}/, MESSAGES.VALID.PHONE_NUMBER),
   role: mixed<Role>()
-    .oneOf(Object.values(Role) as Role[], "Role is required")
+    .oneOf(Object.values(Role) as Role[], MESSAGES.REQUIRED.ROLE)
     .required(),
   login: LoginFormVaidationSchema,
 });
