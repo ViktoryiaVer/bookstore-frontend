@@ -17,12 +17,7 @@ export const BookFormValidationSchema: SchemaOf<BookCreate> = object({
     .min(0.01, MESSAGES.VALID.PRICE_MIN)
     .max(10000.0, MESSAGES.VALID.PRICE_MAX),
   cover: mixed<Cover>()
-    .oneOf(
-      Object.values(Cover).filter(
-        (value) => typeof value === "string"
-      ) as Cover[],
-      MESSAGES.REQUIRED.COVER
-    )
+    .oneOf(Object.values(Cover), MESSAGES.REQUIRED.COVER)
     .required(),
   authorIds: array<Number>()
     .required(MESSAGES.REQUIRED.AUTHORS)

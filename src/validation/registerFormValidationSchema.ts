@@ -22,7 +22,7 @@ export const RegisterFormVaidationSchema: SchemaOf<UserAccount> = object({
     .required(MESSAGES.REQUIRED.PHONE_NUMBER)
     .matches(/\+[0-9]{10,}/, MESSAGES.VALID.PHONE_NUMBER),
   role: mixed<Role>()
-    .oneOf(Object.values(Role) as Role[], MESSAGES.REQUIRED.ROLE)
+    .oneOf(Object.values(Role), MESSAGES.REQUIRED.ROLE)
     .required(),
   login: LoginFormVaidationSchema,
 });
