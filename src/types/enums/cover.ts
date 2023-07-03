@@ -1,5 +1,5 @@
 export enum Cover {
-  "HARD",
-  "SOFT",
-  "SPECIAL",
+  HARD = "HARD",
+  SOFT = "SOFT",
+  SPECIAL = "SPECIAL",
 }

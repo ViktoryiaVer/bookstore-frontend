@@ -31,9 +31,7 @@ const BookForm: FC<BookFormProps> = () => {
     cover: Cover.HARD,
     authors: [],
   });
-  const covers = Object.values(Cover).filter(
-    (value) => typeof value === "string"
-  ) as string[];
+  const covers = Object.values(Cover);
   const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const { loader, showLoader, hideLoader } = usePageLoader();

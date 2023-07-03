@@ -48,7 +48,6 @@ const RegisterForm: FC<RegisterFormProps> = () => {
 
     const errors = await validate(RegisterFormVaidationSchema, user);
     setErrors(errors || {});
-    console.log(errors);
     if (errors) return;
 
     try {
