@@ -1,11 +1,11 @@
 import Author from "../types/author";
 import http from "./httpService";
 import config from "../config.json";
-import AuthorPageable from "../types/authorPageable";
 import {
   getSearchParamsForAuthorFiltering,
   getSearchParamsForPagination,
 } from "../utils/searchParamsUtil";
+import ItemsWithPagination from "../types/itemsWithPagination";
 
 const apiEndpoint = config.apiUrl + "authors";
 
@@ -14,14 +14,14 @@ function authorUrl(id: number) {
 }
 
 export function getAuthors() {
-  return http.get<AuthorPageable>(apiEndpoint);
+  return http.get<ItemsWithPagination<Author>>(apiEndpoint);
 }
 
 export function getAuthorsWithParams(searchParams: URLSearchParams) {
   const pageParams = getSearchParamsForPagination(searchParams);
   const filterParams = getSearchParamsForAuthorFiltering(searchParams);
 
-  return http.get<AuthorPageable>(apiEndpoint, {
+  return http.get<ItemsWithPagination<Author>>(apiEndpoint, {
     params: { ...pageParams, ...filterParams },
   });
 }
