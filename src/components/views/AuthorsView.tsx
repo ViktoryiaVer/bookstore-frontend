@@ -30,7 +30,7 @@ const AuthorsView: FC<AuthorsViewProps> = () => {
       const { data } = await getAuthors();
       hideLoader();
 
-      setAuthors(data.authors);
+      setAuthors(data.items);
       setTotalPages(data.totalPages);
     };
     fetchAuthorsInitially();
@@ -42,7 +42,7 @@ const AuthorsView: FC<AuthorsViewProps> = () => {
       const { data } = await getAuthorsWithParams(searchParams);
       hideLoader();
 
-      setAuthors(data.authors);
+      setAuthors(data.items);
     };
     fetchAuthorsAfterChangingParams();
   }, [searchParams]);

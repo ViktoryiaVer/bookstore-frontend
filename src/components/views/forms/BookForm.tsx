@@ -115,7 +115,7 @@ const BookForm: FC<BookFormProps> = () => {
     searchParams.set("lastName", inputValue);
     setSearchParams(searchParams);
     const { data } = await getAuthorsWithParams(searchParams);
-    return data.authors;
+    return data.items;
   };
 
   return (

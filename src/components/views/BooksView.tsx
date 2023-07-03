@@ -30,7 +30,7 @@ const BooksView: FC<BooksViewProps> = () => {
       const { data } = await getBooks();
       hideLoader();
 
-      setBooks(data.books);
+      setBooks(data.items);
       setTotalPages(data.totalPages);
     };
     fetchBooksInitially();
@@ -42,7 +42,7 @@ const BooksView: FC<BooksViewProps> = () => {
       const { data } = await getBooksWithParams(searchParams);
       hideLoader();
 
-      setBooks(data.books);
+      setBooks(data.items);
     };
     fetchBooksAfterChangingParams();
   }, [searchParams]);
